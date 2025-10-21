@@ -2,14 +2,15 @@
 README.md 
 
 project
-  enigma.py 
+  enigma.py  /project file
   
 paper:
-  read.finalpaper.seniorsem2.tex
-  read.finalpaper.seniorsem2.pdf
-  read.enigma.bib
+  read.enigma.tex /written paper
+  read.finalpaper.seniorsem2.tex /sample
+  read.finalpaper.seniorsem2.pdf /sample pdf
+  read.enigma.bib /works cited
 
 presentation:
-  read.enigma2018.pptx
+  read.enigma2018.pptx /final presentation
   
   
