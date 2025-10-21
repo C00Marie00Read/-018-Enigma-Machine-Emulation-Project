@@ -1,0 +1,567 @@
+\documentclass[12pt,letterpaper]{article} %change margin manually to what shubov said
+\usepackage[left=3.175cm,right=2.54cm,top=2.54cm,bottom=2.54cm]{geometry}
+\usepackage{setspace} % \onehalfspacing and \singlespacing
+\doublespacing
+\usepackage[american]{babel}
+\usepackage{csquotes}
+\usepackage{etoolbox}
+\usepackage{indentfirst}
+\usepackage{listings}
+\usepackage{color}
+\usepackage{amsmath,amssymb}
+\usepackage[section]{placeins}
+\AtBeginEnvironment{quote}{singlespacing\small}
+\usepackage{pdfpages}
+
+\definecolor{red}{rgb}{0,0.6,0}
+\definecolor{gray}{rgb}{0.5,0.5,0.5}
+\definecolor{mauve}{rgb}{0.58,0,0.82}
+
+\lstset{frame= tb,
+   language = Python,
+   aboveskip = 3mm,
+   belowskip=3mm,
+   showstringspaces=false,
+   columns=flexible,
+   basicstyle={\small\ttfamily},
+   numbers=none,
+   numberstyle= \tiny\color{gray},
+   keywordstyle=\color{blue},
+   commentstyle=\color{red},
+   stringstyle=\color{mauve},
+   breaklines=true,
+   tabsize=2
+}
+\begin{document}
+\begin{titlepage}
+\begin{center}
+\vspace*{2in}
+The Enigma Machine and Encryption\\
+\vspace*{2in}
+Caroline Read\\
+\vspace*{3in}
+Honors Committee Member and Math Advisor: Dr. Kenneth Levasseur\\
+Honors Mentor: Frau Anna Maria Harrod
+\vspace{.5in}
+\end{center}
+\end{titlepage}
+
+\newpage
+
+\tableofcontents
+
+\newpage
+
+\section{Abstract}
+
+This report  is an overview of the history of encryption, including substitution, transposition, and polyalphabetic codes. Substitution ciphers use letters, numbers, and/or symbols in place of the plain text letters.  The simplest type of substitution cipher is a monoalphabetic cipher where there are a fixed set of substitutions.  Transposition ciphers are arrays of letters that are rearranged according to some permutation key.  Polyalphabetic ciphers combine both transposition and substitution ciphers to create a more secure cipher. The most famous type of polyalphabetic cipher is the Enigma Machine.  Due to the enormatity of possible codes, the Nazis, as well as the rest of the world, believed it was unbreakable. Along with this report, I emulated Enigma Machine in Python 3 to show how the machine operated and how the composition of functions takes in plain text and creates an encrypted message. 
+
+\newpage   
+\section{Acknowledgements}
+Special thanks to:
+\\Dr. Kenneth Levasseur: Professor Mathematical Science Department
+\\Frau Anna Maria: Faculty World Languages and Cultures Department: German 
+\\Association for Computing and Machinery
+\newpage
+
+
+\section{Introduction}
+The art of concealing a message has a long history dating back before the ancient Greeks and Romans.  Up until World War I, the main types of codes used were substitution and transposition ciphers.  The simplest type of substitution cipher is a monoalphabetic cipher where there are a fixed set of substitutions of letters, numbers, or symbols.  The most famous example of monoalphabetic ciphers is a Caesar Cipher where the letters in the alphabet shift positions.  A famous Arabian scholar, Al-Kindi, developed \emph{frequency analysis} to show the likelihood of a particular substitution mapping to a plain text letter. Transposition ciphers are arrays of letters that are rearranged according to some permutation key.  A famous type of transposition ciphers is the Hill Cipher, which uses matrix algebra to encode and decode ciphers.  More complicated ciphers include polyalphabetic ciphers that utilize multiple substitutions and transpostitions to transform the plain text into an unreadable code. One type of polyalphabetic cipher, is the Vigen\`ere Cipher, which substitutes different Caesar Ciphers based on the elements of a keyword. A more complex type of polyalphabetic cipher is the Enigma Machine. Developed just after World War I by a German electrical engineer, Arthur Scherbius, the Enigma Machine was the cutting edge of military communication because of the shear number of possibilities it could output.  Fortunately, the British were able to break code by taking advantage of flaws in with the machine's design and German report format. 
+
+\section{History of Codes and Ciphers}
+Every civilization sent secret messages.  An ancient type of encryption comes from the Spartans who utilized a \emph{scytale}.  The scytale is an encryption device in which a pole of a particular diameter and cloth or paper is tightly wound around with a message written across.\cite{Zgraggen}. When the message is unravelled,  it will look like jumble of letters until the cloth is rewrapped around a pole of the same diameter. The Spartans used scytales during military campaigns\cite{Zgraggen}.  Since then, encryption became even more vital to societal and military operations.
+
+\section{Substitution Ciphers}
+There are many of types of substitution ciphers including the simplest  type: a monoalphabetic.  Monoalphabetic ciphers were the most frequently used as formal, national communication for millennia.  Julius Caesar was a general in the Roman Empire and he developed a code that shifted the letters in a linear sequence, the Caesar cipher.  For a Caesar cipher, the original position of all the letters is shifted to a new position, for example "A" moves to the second position, "B" to the third, "C" to the fourth, etc, all the way to "Z" which moves to the first position, like a clock. 
+\par The mathematical principle of the Caesar cipher is \emph{modular arthimetic}. Modular arithmetic is often an important aspect to encrypting messages in substitution and polyalphabetic ciphers because it emphasizes congruities by allowing a set of numbers to wrap around one number like a clock rather than move along in the standard whole
+number sequence \cite{Insall}. Despite having 25 ways of producing a code, the Caesar cipher is easily broken one way it can be deciphered is to test a small piece of encoded message using all 26 ways.  When a particular key works, it can be applied to the rest of the encrypted message. Further on in this report another method of decryption is discussed.
+
+\subsection{Pre-World War I Codes}	
+More modern use of monoalphabetic ciphers occurred during the American Civil War.  In this code, the author would choose a passage long enough to include all twenty-six letters. Next, the letters are replaced by the number of their position \cite{Barker1}.  Other variants of the monoalphabetic cipher include James Lovell who employed on \enquote{the plaintext alphabet was mixed by writing a keyword first and then adding the remaining letters, including the ampersand as a letter after Z}\cite{Barker1}. \par  During the nineteenth century, Thomas Jefferson, created a cipher device with twenty disks allowing the alphabets to be mixed\cite{Barker1}. Jefferson's 
+machine is very advanced for its era.  Another inventor designed a similar device after Jefferson, is French cyptographer, Commandant Bazeries.
+\par A common military strategy before and during early American colonialism were writing correspondence through a dictionary code. Using a dictionary code meant the two parties trying to communicate to each other would use a published dictionary, \enquote{the location of the desired word being indicated by the number of the page, column and line desired}\cite{Barker1}.  This is only a viable code if the two given parties agreed the exact same edition of a book.  Additionally, unless the way the page number, column, and line are encoded in a particular fashion, this could become an easy code to break. Monoalphabetic ciphers are used throughout history up through the American Revolution, Civil War, and the first World War. \par
+   Invisible ink codes were used also during the eighteenth century in which \enquote{Three or four lines were written in black ink would constitute the visible letter. The remaining blank parts of the sheet of paper would be filled 
+with invisible writing, containg intelligence...}\cite{Barker1} What's futuristic about this code is the two parties only need to know how to reveal the code when they are ready: through further chemical exposure to the message or some type of light exposure.  If a chemical reagent was required, then any infiltrating party would need access to the given chemicals while at the same time know that invisible inks were being used.  Due to industrialization and access to chemicals makes this no more than a parlor trick however, the transition to modern technology is very evident and pertinent.
+\section{Transposition Ciphers}
+Transposition ciphers are also common pre-industrial ciphers which mathematically speaking use permutations and abstract algebra concepts. Transposition ciphers work by taking a message 
+defining each character by its position within the message then a key dictates how many positions there are.  For example if there is a 20 character message that needs
+encryption, and it is a key of say 4, then the positions for each letter turn into [1,2,3,4,1,2,3,4,...1,2,3,4].  The simplest type of transposition is a \emph{rail fence cipher}.
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | c | c | c | c | c | c | c | c | c |}
+\hline
+I &  & I &  & E &  & A &  & S \\
+\hline
+ & L &  & K &  & C &  & T &   \\
+\hline
+\end{tabular}
+\caption{Rail Fence Cipher}
+\label{tab:template}
+\end{center}
+\end{table}
+Table 1 shows an example of the rail fence cipher where message \emph{I LIKE CATS} encodes to \emph{IIEAS LKCT}. 
+\par
+In a permutation transposition cipher, one is able to take the position of the plain text message and based on the permutation key, they move around the letters according to 
+that permutation.  For example, take the message \emph{Be careful because there is quicksand} with a  sequence of 4 and a permutation key of (3,4,1,2) in Table 2 translates into \emph{REECLBSEAUERTHSQEICKUTSQEI}. \newpage
+\begin{table}[h]
+\begin{center}
+\begin{tabular}{ | c | c | c | c| }
+\hline
+1 & 2 & 3 & 4 \\
+\hline
+B & E & C & A \\
+R& E & F&U\\
+L&B&E&E\\
+A&U&S&E\\
+T&H&E&R\\
+E&I&S&Q\\
+U&I&C&K\\
+S&A&N&D\\
+\hline
+\hline
+3& 4& 1 &2\\
+\hline
+C&A&B&E\\
+F&U&R&E\\
+E&C&L&B\\
+S&E&A&U\\
+E&R&T&H\\
+S&Q&E&I\\
+C&K&U&T\\
+S&Q&E&I\\
+\hline
+\end{tabular}
+\caption{Permutation Cipher}
+\label{tab:template}
+\end{center}
+\end{table}
+
+Monoalphabetic and transposition ciphers tend to be difficult to manually decode because more often the key or exact type of code is not available or evident. However, with modern computers, these types of codes are trivial to break.
+\par
+Matrix algebra is a simple way to encrypt messages because the patterns are written in the form of a matrix equation that can be solved then translated from numbers to letters 
+easily.  A common example is the Hill Cipher: For the Hill Cipher you have a particular key that is agreed upon beforehand.  For instance $A$ =
+\[\begin{bmatrix}
+1&6\\
+2&9\\
+\end{bmatrix}\]
+  \emph{COOL} to a friend who has the key also. First let’s separate \emph{COOL} into \\
+Vector 1:
+ \[\begin{bmatrix}
+C\\
+O\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+2\\
+14\\
+\end{bmatrix}\]
+and  
+Vector 2:
+\[\begin{bmatrix}
+O\\
+L\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+14\\
+11\\
+\end{bmatrix}\]
+then we multiply our key matrix with our message vectors using matrix algebra. 
+\[\begin{bmatrix}
+1&6\\
+2&9\\
+\end{bmatrix}
+\begin{bmatrix}
+2\\
+14\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+30\\
+138\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+4\\
+8\\
+\end{bmatrix}
+mod26
+=
+\begin{bmatrix}
+E\\
+I\\
+\end{bmatrix}\]
+\[\begin{bmatrix}
+1&6\\
+2&9\\
+\end{bmatrix}
+\begin{bmatrix}
+14\\
+11\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+36\\
+183\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+10\\
+1\\
+\end{bmatrix}
+mod26
+=
+\begin{bmatrix}
+K\\
+B\\
+\end{bmatrix}\]
+This cipher translated \emph{COOL} TO \emph{EIKB}. For this type of cipher we utilized two mathematical concepts, matrix multiplication where we took a key array and multiplied it against the letters which were turned into vectors, and then we applied modular arithmetic, with modulus 26, to translate the numerical values back to alphabetical.  To decrypt this message, the key matrix must have an inverse.  To find the inverse, first find the determinant of matrix $A$.  For a $2x2$ matrix, follow the pattern $ad-bc$, $detA = 9 - 12 = -3 = 23mod26$.  Then find the multiplative inverse of the determinant \[23X = 1mod26\]\[ X= 17\] 
+Next, find the adjugate of
+\newline $ A = adj$
+\[\begin{bmatrix}
+1&6\\
+2&9\\
+\end{bmatrix} 
+=
+\begin{bmatrix}
+9&-6\\
+-2&1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+9&20\\
+24&1\\
+\end{bmatrix}mod26\]
+Finally, to find $A^{-1}$ multiply the determinant multiplicative inverse by the adjudicate matrix:
+\[\begin{bmatrix}
+9&20\\
+24&1\\
+\end{bmatrix}17
+=
+\begin{bmatrix}
+153&340\\
+408&17\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+23&2\\
+18&17\\
+\end{bmatrix}mod26\]
+= $A{-1}$
+So finally to decrypt the message, multiply $A^{-1}$ by the encoded vectors:
+\[\begin{bmatrix}
+23&2\\
+18&17\\
+\end{bmatrix}
+\begin{bmatrix}
+4\\
+8\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+236\\
+144\\
+\end{bmatrix}
+==
+\begin{bmatrix}
+2\\
+14\\
+\end{bmatrix}mod26
+=
+\begin{bmatrix}
+C\\
+O\\
+\end{bmatrix}\]
+
+\[\begin{bmatrix}
+23&2\\
+18&17\\
+\end{bmatrix}
+\begin{bmatrix}
+10\\
+1\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+248\\
+37\\
+\end{bmatrix}
+=
+\begin{bmatrix}
+14\\
+11\\
+\end{bmatrix}mod26
+=
+\begin{bmatrix}
+O\\
+L\\
+\end{bmatrix}\]
+
+This cipher is a lot of manual labor however it is a good insight to how long it could take an interceptor of the message to decode the message.
+\newline
+Each method and example shown, has only really needed an inverse function of the original key so they can be decrypted.  
+
+\section{Frequency Analysis}
+Al-Kindi, a famous Arabian scholar developed \emph{Frequency Analysis} to decrypt substitution and transposition ciphers.  Substitution ciphers are codes where 
+there is a one-to-one replacement of letters with either another letter, number, or symbol. This type of cipher has $26!$ ways of rearranging the alphabet which would take millennia to crack.  However, that would be an inefficient way to break any code. 
+Given that there are so many possibilities of substitution ciphers it took until the 9th century for a viable cyptoanalysis technique to develop, called “Frequency Analysis” \cite{Al-Tayeb}.  Al-Kindi  explains his methodology in \emph{A Manuscript on Deciphering Cryptographic Messages}, which says if the language of the unknown code is known, then by taking some different plain text passage from that same language that is long enough to fill about a sheet and find the frequency of each letter \cite{Al-Tayeb}.  Then use the frequencies gathered from the known plain text to the coded message, i.e. most frequent letter of known is applied to the most frequent of the unknown, etc.  
+As a result, cryptographer’s needed to develop new forms of encryption because frequency analysis threatened the secrecy of most types of codes at the time.  
+
+\section{Polyalphabetic Substitutions}
+To create a more secure cipher, combining  multiple monoalphabetic and transposition ciphers should be used.  These ciphers are \emph{polyalphabetic substitutions} and developed as a result of cyptoanalysts figuring out the much simpler monoalphabetic substitutions, like Al-Kindi and his frequency analysis method, and transposition ciphers. The most notable and simplified example is the Vigenère cipher.  For the Vigenère cipher, a keyword or phrase is chosen and written repetitively until it contains the same number of elements as the plain text 
+\cite{Crypto} then using a tabula recta.  The \emph{tabula recta} is a square table of alphabets. To decrypt this message, one just needs to generate the keyword that suitable fits within the limits of the encrypted message and then go through the tabula recta again. 
+ Encrypting and decrypting are inverses of each other in this example, and previous examples.
+
+\subsection{Enigma Machine}
+The most famous of the polyalphabetical ciphers is the Enigma Machine.  The Enigma Machine is most notably used during World War II by the Nazi’s and Axis power against the Allies.
+While rotor machines were invented as early as the nineteenth century by Thomas Jefferson and French cryptographer, Commandant Bazeries,  the Dutch created a cipher device which was simple manual rotor machine in 1915, with twenty disks allowing the alphabets to be mixed\cite{Barker1}.  However, the Enigma Machine in completion was originally invented in 1918 by Arthur Scherbius, a German electrical engineer\cite{Deutches}.  The cipher machine was built for commercial use and when solicited to the German 
+military was turned away until the mid 1920s through the end of World War II\cite{Deutsches}.  There are a dozen types of Enigma machines that were used and most notable the Funkschl{"u}ssle and M3 and M4 were used by 
+the German Army and Navy, respectively.  \par The Enigma machine was a huge technological advancement for cryptography because it relied less on linguistics and more on the 
+implementation of discrete mathematics.  The commercial Enigma machines contained only wheels which rotated incrementally and sequentially; these wheels will be referred 
+to as \emph{rotors} for the remainder of this report.  However, the military needed an extra layer of security and used a plugboard that automatically swapped letters that were connected.  The exact flow of an input is as follows: input via keyboard $\rightarrow$ plugboard  $\rightarrow$ rotors $\rightarrow$ reflector $\rightarrow$ back through rotors $\rightarrow$ back through the plugboard $\rightarrow$ lampboard \footnote{See Appendix B for wiring diagrams and machine pictures}.  Every month the Nazi commission sent  the German military
+ a calendar with machine settings for each day of the month.  If we think in terms of English for a second, there are $(5)(4)(3)$ choice of rotors $+$ $(26)(26)(26)$ possible 
+starting positions for each rotor $26!/((6!)(10!)(2^10))$  because there are 26! total ways to set up the plugboard but then accounting for the 6 letters 
+that are not swapped, the order of the 10 letters that are swapped do not matter, and only a pair of letters are swapped.  This means there were 158,962,555,217,826,360,000 possible codes making it seem impossible to break.
+\par The Enigma code used a combination of substitution and transposition that allowed one letter, for 
+example: “a”, to be mapped to all other letters.  If you wrote the phrase “Hello Telephone” the double L’s would not be the same letter twice a vast majority of the time and 
+all the “E’s” would be different from each other as well\footnote{There are examples in Appendix B}.  We discussed earlier Al-Kindi’s frequency analysis, that does not work with the Enigma machine because the letters 
+do not map in the same way as say the Caesar or Railfence ciphers.  This is really powerful because the tried and true ways of deciphering without a key was useless.
+Fortunately, here were some problems with how the Nazis used the Enigma machine.  First, the protocol of its usage made it easy to anticipate messages that were transmitted. Each day, the operator would use the particular operation set up, then he would type out the weather report in the exact same format and sign off with the same valediction \cite{USW}.  Additionally, the Nazi military had certain qualification for using the codes, namely, not using similiar set ups during the same monthly time frame.  This includes not using certain rotors, starting positions, and plugboard arrangement, in the same week\cite{Haran1}. As a result, the possibilities are fewer and therefore easier to guess. The Enigma is very strong because a particular letter can map to any other letter however due to the Enigma’s
+ design, not once can that particular letter map to itself.  This is the fatal flaw that lead to the British Allies breaking the unbreakable.  This flaw occurs 
+because the Enigma machine like all the other codes discussed is symmetrical, one-to-one, so there must be an inverse operation to decrypt the message. 
+The British developed an inverse for the Enigma via the BOMBE machine. The BOMBE machine figured out the rotor positions first through a quick process of elimination with the aid of circuitry then the plugboard was sorted \cite{USW} New techniques of cryptoanalysis came about as a result. The name of which is in reference to the Polish BOMBA machine that was developed that broke and earlier version of a Nazi Enigma.  The process of elimination used by Alan Turing who broke the Enigma using two key ideas: \begin{quote}{"[Turing] noticed that when one mistake was found all the deductions that lead to the answer being incorrect were also wrong. And can be rejected at the same time.
+This is what the Bombe machine did, he would check all the rotor positions in about twenty minutes leaving only the rotor positions that were not discounted.  And he would 
+then check those by hand."}\end{quote} \cite{Haran2}.  The crytoanalysis done by the Allies allowed for Nazi secrecy to be detected and then infiltrated saved thousands of lives of civilians and military personnel.
+\section{Emulating the Enigma}
+For my project, I emulated the Enigma Machine.  In the \emph{Appendix A}, is a copy of the source code I created.  Throughout the process, I was able to take the mathematics discussed in this report, namely: modular arithmetic and indexing, to create all the functions necessary to make the same type of composition of functions used in the true Enigma. It was a fun project and I learned a lot about coding, ciphering, and the mathematics that are required for them. \par While working on this project, I struggled mostly on learning how to code efficiently and effectively, so I went to tutoring often. \par  My program is a composition of functions for each function of the Enigma machine.  I started by creating a plugboard which is just a swap function of two user inputs, repetitively.  Next I worked on the rotors.  This was the most challenging part for me because I have only taken Computing I and limited programming experience.  At the ACM club on campus, I learned about \emph{class structures} to make an \emph{object} in my code.  For my project, I have a class called \emph{rotor} with individual functions that define a rotors initial set up by a given: wiring, position, iteration, and which rotor, the set position, and the most important function: encryption function.  Conceptually, I had a lot of trouble with classes and particularly the encryption function.  The encryption function works by taken all the initial conditions set by previous functions and gets applied to each rotor in the system.  A rotor will rotate until it does a full rotation then the next rotor will rotate until the next rotation, and so on.  When a rotor rotates, the initial position is offset by one.  Then it moves on to the next rotors until it gets to the reflector.  The reflector sends the input all the way back through the circuit and out the lampboard, and the reflector is just a static rotor.  Because this is a computer program, I needed to use modular arithmetic after the input is set to its ASCII value then add the incremental position then it goes through the rotors in reverse. Then when the encryption for the rotors is finished, it returns the newly encrypted character and if the rotor needs to be rotated.  \par After the rotor encryption is completed I needed to connect that function with the plugboard function before sending the final answer out.  To do this I had a function use plugboard which takes in the encrypt char and applies the plugboard that was set up at the beginning by the user.
+\par I used original wirings for various rotors from original Enigma machines however, I did not separate the particular rotors to the particular machines. I did the same for the reflectors.  There are examples of my code in Appendix B.
+\section{Conclusion}
+In this report there were two main types of codes used historically: substitution and transposition. Substitution ciphers use letters, numbers, and or symbols in place of the plain text letters while transposition ciphers used the position of the plain text letters to scramble the message.  The simplest type of substitution cipher is a monoalphabetic cipher where there are a fixed set of substitutions and the simplest type of transposition cipher is a rail fence and permutation ciphers.  Muslim scholar, Al-Kindi, developed a method of deciphering ciphers by analyzing the frequencies of letters and reassigning the encoded letter to the letter that corresponds to its frequency. One way around Al-Kindi's method is by using polyalphabetic ciphers, which combine both transposition and substitution ciphers to create a more secure cipher. The most famous type of polyalphabetic cipher is the Enigma Machine. Due to the enormatity of possible codes, the Nazis, as well as the rest of the world, believed it was unbreakable.  However, due to the symmetric properties of the Enigma machine and the flaw that letters cannot map to themselves, the Enigma machine was broken. Along with this report, I emulated Enigma Machine in Python 3 to show how the machine operated and how the composition of functions takes in plain text and creates an encrypted message. 
+
+\newpage
+\section{Appendix  A}
+\subsection{Enigma Machine Emulator Source Code}
+\begin{lstlisting}
+import sys
+
+#lexicon of actual rotors used in Army and Navy Enigmas 
+lexicon_rotor_I    = ['E','K','M','F','L','G','D','Q','V','Z','N','T','O','W','Y','H','X','U','S','P','A','I','B','R','C','J'] 
+lexicon_rotor_II   = ['A','J','D','K','S','I','R','U','X','B','L','H','W','T','M','C','Q','G','Z','N','P','Y','F','V','O','E']
+lexicon_rotor_III  = ['B','D','F','H','J','L','C','P','R','T','X','V','Z','N','Y','E','I','W','G','A','K','M','U','S','Q','O']
+lexicon_rotor_IV   = ['E','S','O','V','P','Z','J','A','Y','Q','U','I','R','H','X','L','N','F','T','G','K','D','C','M','W','B']
+lexicon_rotor_V    = ['V','Z','B','R','G','I','T','Y','U','P','S','D','N','H','L','X','A','W','M','J','Q','O','F','E','C','K']
+lexicon_rotor_VI   = ['J','P','G','V','O','U','M','F','Y','Q','B','E','N','H','Z','R','D','K','A','S','X','L','I','C','T','W']
+lexicon_rotor_VII  = ['N','Z','J','H','G','R','C','X','M','Y','S','W','B','O','U','F','A','I','V','L','P','E','K','Q','D','T']
+lexicon_rotor_VIII = ['F','K','Q','H','T','L','X','O','C','B','J','S','P','D','Z','R','A','M','E','W','N','I','U','Y','G','V']
+lexicon_beta       = ['L','E','Y','J','V','C','N','I','X','W','P','B','Q','M','D','R','T','A','K','Z','G','F','U','H','O','S']
+lexicon_gamma      = ['F','S','O','K','A','N','U','E','R','H','M','B','T','I','Y','C','W','L','Q','P','Z','X','V','G','J','D']
+
+#lexicon of actual reflectors
+lexicon_reflector_A = ['E','N','K','Q','A','U','Y','W','J','I','C','O','P','B','L','M','D','X','Z','V','F','T','H','R','G','S']
+lexicon_reflector_B = ['R','D','O','B','J','N','T','K','V','E','H','M','L','F','C','W','Z','A','X','G','Y','I','P','S','U','Q']
+reflector_list = [lexicon_reflector_A, lexicon_reflector_B]#This is used when seting up the machine
+
+#Setup machine
+box_of_rotors = [lexicon_rotor_I, lexicon_rotor_II, lexicon_rotor_III, lexicon_rotor_IV, lexicon_rotor_V, lexicon_rotor_VI, lexicon_rotor_VII, lexicon_rotor_VIII,lexicon_beta, lexicon_gamma]
+
+
+    
+def use_plugboard(plugboard_setup, user_input):
+    return plugboard_setup[char_to_index(user_input)]
+
+def plugboard():# generates plugboard
+    print("How many pairs of letters would you like to swap?")
+    pairs = get_int()
+    lexicon=['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z']
+    for count in range(0,pairs):
+        lexicon=swap_pairs(lexicon)
+    print(lexicon)
+    return lexicon 
+
+def swap_pairs(lexicon): #Transposition of alphabet
+    print("First letter: ")
+    letter1 = get_char()
+    print("Second letter: ")
+    letter2= get_char()
+    p= char_to_index(letter1)
+    q= char_to_index(letter2)
+    temp=lexicon[p]
+    lexicon[p] = lexicon[q]
+    lexicon[q] = temp
+    return lexicon
+
+def char_to_index(letter): #For calculating the index based on the letter's character value  
+    temp = ord(letter)-65
+    return temp
+
+def index_to_char(number): #for changing index in the lexicon of a character back to a character
+    temp = chr(number + 65)
+    return temp
+
+def get_int():
+    while True:
+        input_int = input()
+        input_int = int(input_int)
+        if input_int <= 26:
+            return (input_int)
+        else:
+            print("Error: Choose a number from the set")            
+
+def get_char(): #user input for character
+    while True:
+        input_string = input().upper()
+        if len(input_string) == 1:
+           y = ord(input_string)
+           if y <= 90 and y >= 65:
+                return (input_string)
+        else:
+            print("ERROR: Type 1 letter") #in case the user types in the wrong value
+    return(y)
+
+def get_military(): #Germany had two different enigmas in military: Navy- 4 rotors and Army 3 rotors
+    print("Are you the Navy?  Y/N")
+    x = get_char()   
+    if (x == 'Y' or  x == 'y' or x == 'yes' or x == 'Yes'):
+        return 'navy'
+    elif (x == 'N' or x =='n' or x =='no' or x == 'No'):
+        print("Are you the Army?")
+        y = get_char()
+        if (y == 'Y' or y == 'y' or y == 'Yes' or y == 'yes'):
+            return 'army'
+        else: 
+            print("You must be a Ally spy!")
+            sys.exit(1)
+        
+
+class rotor: #Creates object: Rotor which can be manipulated by its given wiring, rotor number, position for starting position, and iteration
+    def __init__(self, lexicon, rotor_number, starting_position):
+        self.wiring = lexicon 
+        self.position = starting_position
+        self.iteration = 0
+        self.rotor_number = rotor_number
+    def set_position(self, init_int):
+        self.position = init_int
+    def encrypt(self, init_char, rotated, reflected = 0): #the actual encryption
+        if rotated == 1: #a particular rotor rotates until it does a full rotation,
+                         #when the full rotation is accomplished that rotor no longer rotates and the next rotor rotates 
+            self.position = self.position + 1
+        if reflected != 0: 
+            for i,c in  enumerate(self.wiring): #iterate through each letter but 
+                if c in init_char:              #then give a pair of the letter and it's number in order
+                    i = (i - self.position)%26
+                    encrypt_char = index_to_char(i)
+                    break
+        else:
+            index = (char_to_index(init_char) + self.position)%26
+            encrypt_char = self.wiring[index]
+        
+        if self.position > 25:
+            rotate_next = 1 #dictates when a rotor rotates
+        else:
+            rotate_next = 0 #dictates when a rotor does not rotate
+        self.position = ((self.position)%26) #use of modular arthimetics
+     
+        return (encrypt_char, rotate_next)#returns a tuple so that the next letter in the
+                                          #string can be takenin and the appropriate rotor knows if it should rotate
+    
+def get_rotors(): #User input to get the rotors and set up the machine
+    military_branch = get_military()
+    if military_branch == 'army':
+        print("Choose 3 rotors from the set of I to X")
+        number_of_rotors = 3
+    else:
+        print("Choose 4 rotors from the set of I to X")
+        number_of_rotors = 4
+        
+    print("Which rotors would you like (1-10)? Order from fastest to slowest ")
+    rotor_choice_list = []
+    for i in range(0, number_of_rotors):
+        print("Choose rotor for slot " , i + 1)
+        rotor_choice = get_int()    
+        print("Choose starting position of rotor (a number 1 to 26) ")
+        start_position = get_int()
+        if (start_position in range(1,26)):
+            #print( rotor_choice, start_position )
+            tmp = rotor(box_of_rotors[rotor_choice - 1], rotor_choice, start_position)
+            rotor_choice_list.append(tmp) 
+
+    print("These are the rotors you chose ") #just a statement to remind the user which rotors they chose
+    for r in rotor_choice_list:
+        print (r.rotor_number, end=' ')
+    return rotor_choice_list
+
+def get_reflector(): #user input to chose which reflector
+    while True:
+        reflector_choice = input("\nChoose Reflector A or B: ").upper()
+        try:
+            if reflector_choice == 'A':
+                return rotor(reflector_list[0], reflector_choice, 0)
+        
+            if reflector_choice == 'B':
+                return rotor(reflector_list[1], reflector_choice, 0)
+        except:
+            print("Error: Please type A or B")
+
+def get_string(): #User input to encrypt
+    return (input("Enter a message to encrypt: ").upper())
+
+def message_to_encrypt(): #sending string to encrypt function in rotor class
+        return (get_string().replace(" ",""))
+       
+def main():
+    print("Thank you for using the Engima Machine today. You will set up your plugboard,")
+    print("choose rotors, and choose a reflector before you encrypt or decrypt your message. Good Luck!")
+    plugboard_setup = plugboard()
+    rotor_list = get_rotors()
+    reflector = get_reflector() 
+    cipher_choice= message_to_encrypt()
+    
+    for s in cipher_choice: #for some character in the message i want to encrypt
+        temp = use_plugboard(plugboard_setup, s)
+        rotatenext = 1
+        
+        for r in rotor_list:
+            (temp, rotatenext) = r.encrypt(temp,rotatenext) #encrypt the temp variable through the plugboard and the assigned rotors  
+        (temp, rotatenext) = reflector.encrypt(temp,0) #this sends the letter through the reflector
+       
+        for r in reversed(range(len(rotor_list))): #This goes through the rotors in reversed order 
+            (temp, rotatenext) = rotor_list[r].encrypt(temp, 0, 1)
+           
+        temp = use_plugboard(plugboard_setup,temp) #back through the plugboard 
+        print(temp, end = ' ') #the lampboard
+        
+
+if __name__ == "__main__":
+    print("Would you like to set up your Enigma Machine? ")
+    answer = get_char()
+    while(answer == "Yes" or answer == "Y" or answer == "Y"):
+        main()
+        print("\nWould you like to set up another Enigma Machine? ")
+        answer = get_char()
+    else:
+        print("OK")
+        sys.exit(1)
+\end{lstlisting}
+\newpage
+\section{Appendix B}
+\subsection{Mathematical Sciences Department Poster Presentation}
+\begin{figure}[!h]
+  \centering
+  \includegraphics[width=18cm]{posterpresentation}
+  \caption{Mathematical Science Department Senior Seminar Poster Presentation}
+  \label{fig:presentation}
+\end{figure}
+\newpage
+\includepdf[pages=1,pagecommand=\subsection{Powerpoint Presentation}]{slideshow}
+\pagestyle{empty}
+\includepdf[pages=2-]{slideshow}
+\pagestyle{empty}
+\newpage
+\bibliographystyle{siam}
+\bibliography{read.enigma}
+
+
+
+
+\end{document}
+
